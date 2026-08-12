@@ -67,5 +67,7 @@ class DatabaseSeeder extends Seeder
             'id_servicio' => $servicio->id_servicio,
             'precio_pactado' => fake()->randomFloat(2, 5, 60),
         ]));
+
+        $this->call(CatServiciosAqSeeder::class);
     }
 }

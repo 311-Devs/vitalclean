@@ -50,6 +50,23 @@ Si solo necesitas subir la base de datos sin correr el proyecto en local:
 Ambos archivos fueron generados y probados contra MySQL/MariaDB (import limpio
 verificado). Reflejan exactamente lo que producen las migraciones de Laravel.
 
+### Catálogo de productos (LISTA_PRODUCTOS.xlsx)
+
+`database/sql/insert_productos_aq.sql` carga 62 productos adicionales en
+`cat_servicios` (tomados de un catálogo de cliente entregado en Excel, sin
+unidad/categoría explícitas). Se clasificaron así:
+
+- `unidad`: `PZA` por defecto; `KG` para servicios a granel (limpiones,
+  blancos hospitalarios, mantelería/lavandería por servicio).
+- `categoria`: `Hotelería`, `Restaurante`, `Uniformes` u `Otros`, según el
+  tipo de prenda.
+
+Es seguro reimportarlo: usa `INSERT ... ON DUPLICATE KEY UPDATE` sobre
+`descripcion` (que ahora tiene restricción `UNIQUE`), así que no duplica
+productos si se corre más de una vez. Impórtalo desde phpMyAdmin igual que
+los archivos anteriores, después de tener la tabla `cat_servicios` creada.
+Equivalente en Laravel: `php artisan db:seed --class=CatServiciosAqSeeder`.
+
 ## Usuarios de prueba (seeder)
 
 | Usuario | Rol | Password |

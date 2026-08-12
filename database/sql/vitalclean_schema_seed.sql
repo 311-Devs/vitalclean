@@ -39,9 +39,9 @@ CREATE TABLE `sys_usuarios` (
 --
 
 /*!40000 ALTER TABLE `sys_usuarios` DISABLE KEYS */;
-INSERT INTO `sys_usuarios` (`id_usuario`, `username`, `password_hash`, `rol`, `nombre_completo`, `email`, `activo`, `remember_token`, `created_at`, `updated_at`) VALUES (1,'admin.vitalclean','$2y$12$Z1BrMjijwtIo9yKLz4m8/.T5gKKSHmYcgorhhzrKjhwtwCIU/EU3u','ADMIN','Administrador Vital Clean','admin@vitalclean.mx',1,'GG8DEV8vPv','2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(2,'vendedor.vitalclean','$2y$12$Z1BrMjijwtIo9yKLz4m8/.T5gKKSHmYcgorhhzrKjhwtwCIU/EU3u','VENDEDOR','Vendedor Ruta 1','vendedor@vitalclean.mx',1,'ZWDShLncNY','2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(3,'operador.vitalclean','$2y$12$Z1BrMjijwtIo9yKLz4m8/.T5gKKSHmYcgorhhzrKjhwtwCIU/EU3u','OPERADOR','Operador de Planta','operador@vitalclean.mx',1,'vsev8tG1YW','2026-08-12 04:05:19','2026-08-12 04:05:19');
+INSERT INTO `sys_usuarios` (`id_usuario`, `username`, `password_hash`, `rol`, `nombre_completo`, `email`, `activo`, `remember_token`, `created_at`, `updated_at`) VALUES (1,'admin.vitalclean','$2y$12$bXsKWemv4ASTMjVdMjX0Sefv0.NZ7k8/WrPxr/2UwPw7J6VArH8je','ADMIN','Administrador Vital Clean','admin@vitalclean.mx',1,'zvhpmjVool','2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(2,'vendedor.vitalclean','$2y$12$bXsKWemv4ASTMjVdMjX0Sefv0.NZ7k8/WrPxr/2UwPw7J6VArH8je','VENDEDOR','Vendedor Ruta 1','vendedor@vitalclean.mx',1,'PmZDuAZ2vF','2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(3,'operador.vitalclean','$2y$12$bXsKWemv4ASTMjVdMjX0Sefv0.NZ7k8/WrPxr/2UwPw7J6VArH8je','OPERADOR','Operador de Planta','operador@vitalclean.mx',1,'rGoUE2BkYC','2026-08-12 05:05:08','2026-08-12 05:05:08');
 /*!40000 ALTER TABLE `sys_usuarios` ENABLE KEYS */;
 
 --
@@ -72,7 +72,7 @@ CREATE TABLE `cat_clientes` (
 --
 
 /*!40000 ALTER TABLE `cat_clientes` DISABLE KEYS */;
-INSERT INTO `cat_clientes` (`id_cliente`, `nombre_comercial`, `razon_social`, `rfc`, `direccion`, `telefono`, `email_facturacion`, `estatus_credito`, `created_at`, `updated_at`) VALUES (1,'Grand Hotel de Mérida','Grand Hotel de Mérida S.A. de C.V.','GHM850101XYZ','Calle 60 #450, Centro, Mérida, Yucatán, C.P. 97000','9997808557','facturacion@grandhotelmerida.com.mx',1,'2026-08-12 04:05:19','2026-08-12 04:05:19');
+INSERT INTO `cat_clientes` (`id_cliente`, `nombre_comercial`, `razon_social`, `rfc`, `direccion`, `telefono`, `email_facturacion`, `estatus_credito`, `created_at`, `updated_at`) VALUES (1,'Grand Hotel de Mérida','Grand Hotel de Mérida S.A. de C.V.','GHM850101XYZ','Calle 60 #450, Centro, Mérida, Yucatán, C.P. 97000','9997808557','facturacion@grandhotelmerida.com.mx',1,'2026-08-12 05:05:08','2026-08-12 05:05:08');
 /*!40000 ALTER TABLE `cat_clientes` ENABLE KEYS */;
 
 --
@@ -89,8 +89,9 @@ CREATE TABLE `cat_servicios` (
   `categoria` varchar(50) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id_servicio`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id_servicio`),
+  UNIQUE KEY `cat_servicios_descripcion_unique` (`descripcion`)
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,13 +99,75 @@ CREATE TABLE `cat_servicios` (
 --
 
 /*!40000 ALTER TABLE `cat_servicios` DISABLE KEYS */;
-INSERT INTO `cat_servicios` (`id_servicio`, `descripcion`, `unidad`, `categoria`, `created_at`, `updated_at`) VALUES (1,'Sábana King Size','PZA','Hotelería','2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(2,'Sábana Queen','PZA','Hotelería','2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(3,'Toalla de Baño','PZA','Hotelería','2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(4,'Toalla de Manos','PZA','Hotelería','2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(5,'Funda de Almohada','PZA','Hotelería','2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(6,'Mantel','KG','Restaurante','2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(7,'Uniforme Personal','PZA','Uniformes','2026-08-12 04:05:19','2026-08-12 04:05:19');
+INSERT INTO `cat_servicios` (`id_servicio`, `descripcion`, `unidad`, `categoria`, `created_at`, `updated_at`) VALUES (1,'Sábana King Size','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(2,'Sábana Queen','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(3,'Toalla de Baño','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(4,'Toalla de Manos','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(5,'Funda de Almohada','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(6,'Mantel','KG','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(7,'Uniforme Personal','PZA','Uniformes','2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(8,'COSTURA TAPETE','PZA','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(9,'COSTURA TOALLA BAÑO','PZA','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(10,'LAVADO DE ALMOHADA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(11,'LAVADO DE ALMOHADA DE PLUMA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(12,'LAVADO DE BAMBALINA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(13,'LAVADO DE BANDERA','PZA','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(14,'LAVADO DE BATA DE BAÑO','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(15,'LAVADO DE CAMINO','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(16,'LAVADO DE CASACAS','PZA','Uniformes','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(17,'LAVADO DE CHAMARRA','PZA','Uniformes','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(18,'LAVADO DE COBERTOR','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(19,'LAVADO DE CORTINA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(20,'LAVADO DE CUBRECHAROLA','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(21,'LAVADO DE CUBRECOLCHON','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(22,'LAVADO DE CUBREMANTEL','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(23,'LAVADO DE CUBRESILLA','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(24,'LAVADO DE DUVET','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(25,'LAVADO DE EDREDON','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(26,'LAVADO DE FUNDA DE BURRO','PZA','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(27,'LAVADO DE FUNDA DE COJIN','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(28,'LAVADO DE FUNDA DECORADA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(29,'LAVADO DE FUNDAS','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(30,'LAVADO DE FUNDAS KING','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(31,'LAVADO DE GORRO','PZA','Uniformes','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(32,'LAVADO DE INSERTO','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(33,'LAVADO DE LAZO','PZA','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(34,'LAVADO DE LIMPION','KG','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(35,'LAVADO DE MANTEL CHICO','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(36,'LAVADO DE MANTEL DE FELPA','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(37,'LAVADO DE MANTEL GRANDE','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(38,'LAVADO DE MANTEL MEDIANO','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(39,'LAVADO DE MANTEL REDONDO','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(40,'LAVADO MANTEL TABLON','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(41,'LAVADO DE PANTUFLAS','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(42,'LAVADO DE PROTECTOR DE ALMOHADA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(43,'LAVADO DE PROTECTOR DE COLCHON','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(44,'LAVADO DE RODAPIE','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(45,'LAVADO DE SABANAS','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(46,'LAVADO SABANA KING','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(47,'LAVADO DE SERVILLETAS','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(48,'LAVADO DE SOBRECAMA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(49,'LAVADO DE TAPETE DE BAÑO','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(50,'LAVADO DE TERNOS','PZA','Uniformes','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(51,'LAVADO DE TOALLA CAFE','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(52,'LAVADO DE TOALLA DE ALBERCA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(53,'LAVADO DE TOALLA DE BAÑO','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(54,'LAVADO DE TOALLA DE BAÑO CHICA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(55,'LAVADO DE TOALLA DE BAÑO GRANDE','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(56,'LAVADO DE TOALLA DE MANO','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(57,'LAVADO DE TOALLA FACIAL','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(58,'LAVADO DE TORTILLERAS','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(59,'LAVADO DE UNIFORMES','PZA','Uniformes','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(60,'LAVADO FUNDA SILLON','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(61,'LAVADO MANDIL','PZA','Uniformes','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(62,'LAVADO PROTECTOR CUNA','PZA','Hotelería','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(63,'LAVANDERIA DE BLANCOS HOSPITALARIOS','KG','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(64,'LAVADO DE PANERA','PZA','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(65,'SERVICIO DE DESMANCHE','PZA','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(66,'SERVICIO DE LAVADO DE MANTELERIA','KG','Restaurante','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(67,'SERVICIO DE LAVANDERIA','KG','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(68,'SERVICIO DE LAVANDERIA INTEGRAL','KG','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13'),
+(69,'SERVICIO DE TINTORERIA','PZA','Otros','2026-08-12 05:05:08','2026-08-12 05:05:13');
 /*!40000 ALTER TABLE `cat_servicios` ENABLE KEYS */;
 
 --
@@ -134,13 +197,13 @@ CREATE TABLE `rel_tarifas_cliente` (
 --
 
 /*!40000 ALTER TABLE `rel_tarifas_cliente` DISABLE KEYS */;
-INSERT INTO `rel_tarifas_cliente` (`id_tarifa`, `id_cliente`, `id_servicio`, `precio_pactado`, `created_at`, `updated_at`) VALUES (1,1,1,16.55,'2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(2,1,2,51.06,'2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(3,1,3,41.12,'2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(4,1,4,37.12,'2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(5,1,5,5.92,'2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(6,1,6,55.41,'2026-08-12 04:05:19','2026-08-12 04:05:19'),
-(7,1,7,54.63,'2026-08-12 04:05:19','2026-08-12 04:05:19');
+INSERT INTO `rel_tarifas_cliente` (`id_tarifa`, `id_cliente`, `id_servicio`, `precio_pactado`, `created_at`, `updated_at`) VALUES (1,1,1,10.67,'2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(2,1,2,25.58,'2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(3,1,3,57.94,'2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(4,1,4,56.84,'2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(5,1,5,23.88,'2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(6,1,6,11.99,'2026-08-12 05:05:08','2026-08-12 05:05:08'),
+(7,1,7,46.50,'2026-08-12 05:05:08','2026-08-12 05:05:08');
 /*!40000 ALTER TABLE `rel_tarifas_cliente` ENABLE KEYS */;
 
 --
@@ -244,4 +307,4 @@ CREATE TABLE `ope_incidencias` (
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-08-12  4:05:38
+-- Dump completed on 2026-08-12  5:05:20
