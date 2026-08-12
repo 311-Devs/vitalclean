@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Operaciones\ClienteController;
 use App\Http\Controllers\Operaciones\ServicioController;
 use App\Http\Controllers\Operaciones\TarifaClienteController;
+use App\Http\Controllers\Vendedor\PedidoController;
+use App\Http\Controllers\Vendedor\RecoleccionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -55,4 +57,17 @@ Route::middleware(['auth', 'role:VENDEDOR'])
         Route::get('/', function () {
             return view('vendedor.home');
         })->name('home');
+
+        // CU-01: Levantamiento de Orden en Sitio (Anexo App, pantallas 02-08).
+        Route::prefix('recoleccion')->name('recoleccion.')->group(function () {
+            Route::get('/', [RecoleccionController::class, 'create'])->name('create');
+            Route::post('/', [RecoleccionController::class, 'store'])->name('store');
+            Route::get('/resumen', [RecoleccionController::class, 'resumen'])->name('resumen');
+            Route::post('/confirmar', [RecoleccionController::class, 'confirmar'])->name('confirmar');
+            Route::get('/{notaRemision}/exito', [RecoleccionController::class, 'exito'])->name('exito');
+        });
+
+        // Anexo App, pantallas 09-10: seguimiento de pedidos.
+        Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
+        Route::get('/pedidos/{notaRemision}', [PedidoController::class, 'show'])->name('pedidos.show');
     });

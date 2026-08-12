@@ -106,6 +106,13 @@
         .btn-sm { padding: .3rem .7rem; font-size: .85rem; }
         .field-error { color: var(--rojo); font-size: .8rem; margin-top: .2rem; }
         .actions-cell { display: flex; gap: .4rem; }
+        /* RN-07: colores por estatus_orden */
+        .badge-ruta { background: var(--amarillo); }
+        .badge-planta_recibido { background: var(--azul-claro); }
+        .badge-proceso { background: #8e44ad; }
+        .badge-listo { background: #28a745; }
+        .badge-entregado { background: #1e7e34; }
+        .badge-cancelado { background: var(--rojo); }
     </style>
 </head>
 <body>

@@ -5,6 +5,9 @@
 @section('content')
     <div class="card">
         <h1>Hola, {{ auth()->user()->nombre_completo ?? auth()->user()->username }}</h1>
-        <p>Aquí irá el flujo de recolección (CU-01: búsqueda de cliente, armado de pedido y firma digital).</p>
+        <div class="form-actions">
+            <a href="{{ route('vendedor.recoleccion.create') }}" class="btn">+ Nuevo Pedido</a>
+            <a href="{{ route('vendedor.pedidos.index') }}" class="btn btn-secondary">Mis Pedidos</a>
+        </div>
     </div>
 @endsection

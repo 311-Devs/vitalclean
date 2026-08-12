@@ -48,4 +48,9 @@ class NotaRemision extends Model
     {
         return $this->hasMany(DetalleRemision::class, 'folio_sistema', 'folio_sistema');
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'folio_sistema';
+    }
 }
