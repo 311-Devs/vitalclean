@@ -7,8 +7,16 @@ use App\Http\Controllers\Operaciones\TarifaClienteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    // Si ya está autenticado, no debe volver a /login: eso crearía un
+    // bucle de redirecciones contra el middleware 'guest'.
+    if (auth()->check()) {
+        return redirect()->to(
+            (new LoginController)->redirectPathFor(auth()->user())
+        );
+    }
+
     return redirect()->route('login');
-});
+})->name('home');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'show'])->name('login');
