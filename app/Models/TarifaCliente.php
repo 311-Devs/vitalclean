@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Database\Factories\TarifaClienteFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TarifaCliente extends Model
 {
+    /** @use HasFactory<TarifaClienteFactory> */
+    use HasFactory;
+
     protected $table = 'rel_tarifas_cliente';
 
     protected $primaryKey = 'id_tarifa';

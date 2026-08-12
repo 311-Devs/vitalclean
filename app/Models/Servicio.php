@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Database\Factories\ServicioFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,6 +11,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Servicio extends Model
 {
+    /** @use HasFactory<ServicioFactory> */
+    use HasFactory;
+
     protected $table = 'cat_servicios';
 
     protected $primaryKey = 'id_servicio';

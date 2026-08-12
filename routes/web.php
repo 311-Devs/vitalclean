@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Operaciones\ClienteController;
+use App\Http\Controllers\Operaciones\ServicioController;
+use App\Http\Controllers\Operaciones\TarifaClienteController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,6 +27,16 @@ Route::middleware(['auth', 'role:ADMIN,OPERADOR'])
         Route::get('/', function () {
             return view('operaciones.dashboard');
         })->name('dashboard');
+
+        // Catálogos (A-02, A-03, A-06): "gestiona precios personalizados por
+        // cliente" es responsabilidad del Administrador — solo ADMIN.
+        Route::middleware('role:ADMIN')->group(function () {
+            Route::resource('clientes', ClienteController::class)->except(['show']);
+            Route::resource('servicios', ServicioController::class)->except(['show']);
+            Route::resource('tarifas', TarifaClienteController::class)
+                ->parameters(['tarifas' => 'tarifa'])
+                ->except(['show']);
+        });
     });
 
 // App de Vendedor (ruta/tablet) — Anexo App.
