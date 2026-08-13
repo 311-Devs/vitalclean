@@ -53,4 +53,29 @@ class NotaRemision extends Model
     {
         return 'folio_sistema';
     }
+
+    /**
+     * Prioridad para el Monitor de Órdenes (SRS §11, sistema de alertas),
+     * simplificada a lo que hoy se puede derivar de los datos existentes:
+     * Alta = pedido vencido; Media = vence hoy; Baja = todo lo demás.
+     * No incluye aún incidencias sin validar (ese módulo no existe todavía).
+     */
+    public function getPrioridadAttribute(): string
+    {
+        if (in_array($this->estatus_orden, ['ENTREGADO', 'CANCELADO'], true) || ! $this->fecha_entrega_prog) {
+            return 'baja';
+        }
+
+        $hoy = now()->startOfDay();
+
+        if ($this->fecha_entrega_prog->lt($hoy)) {
+            return 'alta';
+        }
+
+        if ($this->fecha_entrega_prog->isSameDay($hoy)) {
+            return 'media';
+        }
+
+        return 'baja';
+    }
 }

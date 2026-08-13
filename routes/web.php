@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Operaciones\ClienteController;
+use App\Http\Controllers\Operaciones\DashboardController;
+use App\Http\Controllers\Operaciones\OrdenController;
 use App\Http\Controllers\Operaciones\ServicioController;
 use App\Http\Controllers\Operaciones\TarifaClienteController;
 use App\Http\Controllers\Vendedor\PedidoController;
@@ -34,9 +36,8 @@ Route::middleware(['auth', 'role:ADMIN,OPERADOR'])
     ->prefix('operaciones')
     ->name('operaciones.')
     ->group(function () {
-        Route::get('/', function () {
-            return view('operaciones.dashboard');
-        })->name('dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/ordenes/{orden}', [OrdenController::class, 'show'])->name('ordenes.show');
 
         // Catálogos (A-02, A-03, A-06): "gestiona precios personalizados por
         // cliente" es responsabilidad del Administrador — solo ADMIN.
