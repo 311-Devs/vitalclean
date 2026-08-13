@@ -74,11 +74,20 @@
             font-size: .85rem;
             margin-bottom: 1rem;
         }
+
+        /* Identidad de marca — ver resources/views/partials/logo.blade.php */
+        .vc-logo { display: flex; align-items: center; gap: .5rem; }
+        .vc-logo--stacked { flex-direction: column; text-align: center; gap: .1rem; margin-bottom: .5rem; }
+        .vc-logo-icon { flex-shrink: 0; display: block; }
+        .vc-logo-text { display: flex; flex-direction: column; line-height: 1; }
+        .vc-logo-super { font-size: .65rem; letter-spacing: .18em; font-weight: 600; text-transform: uppercase; }
+        .vc-logo-main { font-size: 2.1rem; font-weight: 900; letter-spacing: .02em; font-family: Arial, "Helvetica Neue", sans-serif; }
+        .vc-logo-script { font-size: 1.7rem; font-style: italic; font-family: "Brush Script MT", "Segoe Script", cursive; margin-top: -.2rem; }
     </style>
 </head>
 <body>
     <div class="login-card">
-        <h1>VITAL CLEAN</h1>
+        @include('partials.logo', ['size' => 88, 'stacked' => true])
         <p class="subtitle">Sistema de Gestión Operativa</p>
 
         @if ($errors->any())

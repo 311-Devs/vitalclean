@@ -33,6 +33,14 @@
         }
         header.app-header a { color: var(--blanco); text-decoration: none; font-weight: 600; }
         header.app-header .brand { font-size: 1.1rem; letter-spacing: .02em; }
+
+        /* Identidad de marca — ver resources/views/partials/logo.blade.php */
+        .vc-logo { display: flex; align-items: center; gap: .45rem; }
+        .vc-logo-icon { flex-shrink: 0; display: block; }
+        .vc-logo-text { display: flex; align-items: baseline; gap: .3rem; line-height: 1; }
+        .vc-logo-super { display: none; }
+        .vc-logo-main { font-size: 1.05rem; font-weight: 900; letter-spacing: .02em; font-family: Arial, "Helvetica Neue", sans-serif; }
+        .vc-logo-script { font-size: .95rem; font-style: italic; font-family: "Brush Script MT", "Segoe Script", cursive; }
         .layout { display: flex; align-items: flex-start; }
         nav.sidebar {
             width: 210px;
@@ -118,7 +126,7 @@
 <body>
     @auth
         <header class="app-header">
-            <span class="brand">💧 Vital Clean</span>
+            <span class="brand">@include('partials.logo', ['size' => 30, 'stacked' => false, 'light' => true])</span>
             <span style="display:flex; align-items:center; gap:.75rem;">
                 <span>{{ auth()->user()->nombre_completo ?? auth()->user()->username }}</span>
                 <span class="badge badge-{{ strtolower(auth()->user()->rol) }}">{{ auth()->user()->rol }}</span>
