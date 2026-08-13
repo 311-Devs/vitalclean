@@ -39,7 +39,7 @@
             <div class="form-group">
                 <label for="fecha_entrega_prog">Fecha de Entrega Comprometida</label>
                 <input type="date" id="fecha_entrega_prog" name="fecha_entrega_prog"
-                       value="{{ old('fecha_entrega_prog') }}" style="max-width:200px;">
+                       value="{{ old('fecha_entrega_prog') }}" min="{{ now()->toDateString() }}" style="max-width:200px;">
             </div>
         </div>
 

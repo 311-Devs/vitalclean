@@ -24,7 +24,7 @@ class RecoleccionRequest extends FormRequest
         return [
             'folio_fisico' => ['required', 'string', 'max:20'],
             'id_cliente' => ['required', 'integer', 'exists:cat_clientes,id_cliente'],
-            'fecha_entrega_prog' => ['nullable', 'date'],
+            'fecha_entrega_prog' => ['nullable', 'date', 'after_or_equal:today'],
             'cantidades' => ['required', 'array'],
             'cantidades.*' => ['nullable', 'integer', 'min:0'],
         ];
