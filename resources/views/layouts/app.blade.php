@@ -135,6 +135,7 @@
             <div class="layout">
                 <nav class="sidebar">
                     <a href="{{ route('operaciones.dashboard') }}" class="{{ request()->routeIs('operaciones.dashboard') ? 'active' : '' }}">Operaciones</a>
+                    <a href="{{ route('planta.buscar') }}" class="{{ request()->routeIs('planta.*') ? 'active' : '' }}">Auditoría de Planta</a>
                     @if (auth()->user()->rol === 'ADMIN')
                         <div class="section-title">Catálogos</div>
                         <a href="{{ route('operaciones.clientes.index') }}" class="{{ request()->routeIs('operaciones.clientes.*') ? 'active' : '' }}">Clientes</a>

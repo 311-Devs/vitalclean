@@ -47,6 +47,22 @@ return [
             'report' => false,
         ],
 
+        // Fotos de incidencias (RF-07, RNF-07). En hosting sin acceso a
+        // `php artisan storage:link` (ej. shared hosting sin SSH), este
+        // disco escribe directo dentro de public/ para que las fotos sean
+        // accesibles por URL sin necesitar symlink. RNF-07 sugiere S3 u
+        // otro almacenamiento externo para producción a mayor escala;
+        // este disco local es el punto de partida y se puede reemplazar
+        // por 's3' cambiando FILESYSTEM_INCIDENCIAS_DISK sin tocar código.
+        'incidencias' => [
+            'driver' => 'local',
+            'root' => public_path('uploads/incidencias'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/uploads/incidencias',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

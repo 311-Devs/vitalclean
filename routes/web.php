@@ -6,6 +6,7 @@ use App\Http\Controllers\Operaciones\DashboardController;
 use App\Http\Controllers\Operaciones\OrdenController;
 use App\Http\Controllers\Operaciones\ServicioController;
 use App\Http\Controllers\Operaciones\TarifaClienteController;
+use App\Http\Controllers\Planta\AuditoriaController;
 use App\Http\Controllers\Vendedor\PedidoController;
 use App\Http\Controllers\Vendedor\RecoleccionController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,19 @@ Route::middleware(['auth', 'role:ADMIN,OPERADOR'])
                 ->parameters(['tarifas' => 'tarifa'])
                 ->except(['show']);
         });
+    });
+
+// CU-02: Auditoría de Conteo y Valoración (Planta) — GUI §12.2.
+// El Operador de Planta usa este módulo; ADMIN puede entrar también para
+// destrabar conteos ya bloqueados (RN-03).
+Route::middleware(['auth', 'role:OPERADOR,ADMIN'])
+    ->prefix('planta')
+    ->name('planta.')
+    ->group(function () {
+        Route::get('/', [AuditoriaController::class, 'buscar'])->name('buscar');
+        Route::post('/', [AuditoriaController::class, 'iniciar'])->name('iniciar');
+        Route::get('/{orden}/conteo', [AuditoriaController::class, 'conteo'])->name('conteo');
+        Route::post('/{orden}/conteo', [AuditoriaController::class, 'guardar'])->name('guardar');
     });
 
 // App de Vendedor (ruta/tablet) — Anexo App.
