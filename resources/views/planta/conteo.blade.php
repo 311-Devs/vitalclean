@@ -71,7 +71,7 @@
                                     <div style="margin-bottom:.3rem;">
                                         <span class="badge" style="background:var(--rojo);">{{ $incidencia->comentario ?? 'Daño' }}</span>
                                         @if ($incidencia->foto_evidencia)
-                                            <a href="{{ rtrim(config('app.url'), '/') }}/uploads/incidencias/{{ $incidencia->foto_evidencia }}" target="_blank" style="font-size:.8rem;">ver foto</a>
+                                            <a href="{{ asset('uploads/incidencias/'.$incidencia->foto_evidencia) }}" target="_blank" style="font-size:.8rem;">ver foto</a>
                                         @endif
                                     </div>
                                 @endforeach
