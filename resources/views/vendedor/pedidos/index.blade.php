@@ -5,7 +5,10 @@
 @section('content')
     <div class="page-header">
         <h1>Mis Pedidos</h1>
-        <a href="{{ route('vendedor.recoleccion.create') }}" class="btn">+ Nuevo Pedido</a>
+        <span style="display:flex; gap:.5rem;">
+            <a href="{{ route('vendedor.recoleccion.create') }}" class="btn">+ Nuevo Pedido</a>
+            <a href="{{ route('vendedor.home') }}" class="btn btn-secondary">Volver al Inicio</a>
+        </span>
     </div>
 
     <form method="GET" action="{{ route('vendedor.pedidos.index') }}" style="margin-bottom:1rem;">

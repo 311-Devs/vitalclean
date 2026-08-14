@@ -33,5 +33,6 @@
 
     <div class="form-actions">
         <a href="{{ route('vendedor.pedidos.index') }}" class="btn btn-secondary">Volver al Listado</a>
+        <a href="{{ route('vendedor.home') }}" class="btn btn-secondary">Volver al Inicio</a>
     </div>
 @endsection

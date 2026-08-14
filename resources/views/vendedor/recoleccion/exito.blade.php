@@ -14,6 +14,7 @@
         <div class="form-actions" style="justify-content:center;">
             <a href="{{ route('vendedor.pedidos.show', $nota) }}" class="btn">Ver Detalle</a>
             <a href="{{ route('vendedor.recoleccion.create') }}" class="btn btn-secondary">Nuevo Pedido</a>
+            <a href="{{ route('vendedor.home') }}" class="btn btn-secondary">Volver al Inicio</a>
         </div>
     </div>
 @endsection
