@@ -3,7 +3,12 @@
 @section('title', 'Vital Clean — Cierre de Entrega')
 
 @section('content')
-    <div class="page-header"><h1>Cierre de Entrega</h1></div>
+    <div class="page-header">
+        <h1>Cierre de Entrega</h1>
+        @if (auth()->user()->rol === 'VENDEDOR')
+            <a href="{{ route('vendedor.home') }}" class="btn btn-secondary">Volver al Inicio</a>
+        @endif
+    </div>
 
     @if (session('status'))
         <div class="alert alert-status">{{ session('status') }}</div>
