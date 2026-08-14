@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Entrega\EntregaController;
 use App\Http\Controllers\Operaciones\ClienteController;
 use App\Http\Controllers\Operaciones\DashboardController;
 use App\Http\Controllers\Operaciones\OrdenController;
 use App\Http\Controllers\Operaciones\ServicioController;
 use App\Http\Controllers\Operaciones\TarifaClienteController;
 use App\Http\Controllers\Planta\AuditoriaController;
+use App\Http\Controllers\Produccion\ProduccionController;
 use App\Http\Controllers\Vendedor\PedidoController;
 use App\Http\Controllers\Vendedor\RecoleccionController;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +64,30 @@ Route::middleware(['auth', 'role:OPERADOR,ADMIN'])
         Route::post('/', [AuditoriaController::class, 'iniciar'])->name('iniciar');
         Route::get('/{orden}/conteo', [AuditoriaController::class, 'conteo'])->name('conteo');
         Route::post('/{orden}/conteo', [AuditoriaController::class, 'guardar'])->name('guardar');
+    });
+
+// CU-03: Control de Producción e Incidencias — Lavado/Secado/Planchado.
+// Comparte el rol OPERADOR con Planta (el diccionario de datos solo define
+// 3 roles); ADMIN puede entrar también para destrabar folios ya cerrados.
+Route::middleware(['auth', 'role:OPERADOR,ADMIN'])
+    ->prefix('produccion')
+    ->name('produccion.')
+    ->group(function () {
+        Route::get('/', [ProduccionController::class, 'buscar'])->name('buscar');
+        Route::post('/', [ProduccionController::class, 'iniciar'])->name('iniciar');
+        Route::get('/{orden}', [ProduccionController::class, 'detalle'])->name('detalle');
+        Route::post('/{orden}', [ProduccionController::class, 'guardar'])->name('guardar');
+    });
+
+// CU-04: Cierre de Ciclo y Liquidación.
+Route::middleware(['auth', 'role:VENDEDOR,ADMIN'])
+    ->prefix('entrega')
+    ->name('entrega.')
+    ->group(function () {
+        Route::get('/', [EntregaController::class, 'buscar'])->name('buscar');
+        Route::post('/', [EntregaController::class, 'iniciar'])->name('iniciar');
+        Route::get('/{orden}', [EntregaController::class, 'remision'])->name('remision');
+        Route::post('/{orden}', [EntregaController::class, 'confirmar'])->name('confirmar');
     });
 
 // App de Vendedor (ruta/tablet) — Anexo App.

@@ -20,6 +20,9 @@ class DashboardController extends Controller
             'en_auditoria' => NotaRemision::where('estatus_orden', 'PLANTA_RECIBIDO')->count(),
             'en_proceso' => NotaRemision::where('estatus_orden', 'PROCESO')->count(),
             'listos' => NotaRemision::where('estatus_orden', 'LISTO')->count(),
+            'entregados_hoy' => NotaRemision::where('estatus_orden', 'ENTREGADO')
+                ->whereDate('updated_at', today())
+                ->count(),
         ];
 
         $ordenes = NotaRemision::with(['cliente', 'vendedor'])

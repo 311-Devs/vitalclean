@@ -8,6 +8,7 @@
         <div class="form-actions">
             <a href="{{ route('vendedor.recoleccion.create') }}" class="btn">+ Nuevo Pedido</a>
             <a href="{{ route('vendedor.pedidos.index') }}" class="btn btn-secondary">Mis Pedidos</a>
+            <a href="{{ route('entrega.buscar') }}" class="btn btn-secondary">Cierre de Entrega</a>
         </div>
     </div>
 @endsection

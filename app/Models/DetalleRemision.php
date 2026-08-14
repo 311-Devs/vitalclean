@@ -17,6 +17,7 @@ class DetalleRemision extends Model
         'folio_sistema',
         'id_servicio',
         'cantidad_entrada',
+        'cantidad_salida',
         'precio_aplicado',
         'subtotal',
         'observacion_prenda',

@@ -21,6 +21,7 @@
         <div class="card"><div style="font-size:.8rem; color:#6b7280;">En Auditoría</div><div style="font-size:1.6rem; font-weight:700; color:var(--azul-claro);">{{ $kpis['en_auditoria'] }}</div></div>
         <div class="card"><div style="font-size:.8rem; color:#6b7280;">En Lavado/Proceso</div><div style="font-size:1.6rem; font-weight:700; color:#8e44ad;">{{ $kpis['en_proceso'] }}</div></div>
         <div class="card"><div style="font-size:.8rem; color:#6b7280;">Listos/Por Entregar</div><div style="font-size:1.6rem; font-weight:700; color:#28a745;">{{ $kpis['listos'] }}</div></div>
+        <div class="card"><div style="font-size:.8rem; color:#6b7280;">Entregados (hoy)</div><div style="font-size:1.6rem; font-weight:700; color:#1e7e34;">{{ $kpis['entregados_hoy'] }}</div></div>
     </div>
 
     <div style="display:grid; grid-template-columns:2fr 1fr; gap:1rem; align-items:start;">

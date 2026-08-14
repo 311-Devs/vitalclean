@@ -144,6 +144,10 @@
                 <nav class="sidebar">
                     <a href="{{ route('operaciones.dashboard') }}" class="{{ request()->routeIs('operaciones.dashboard') ? 'active' : '' }}">Operaciones</a>
                     <a href="{{ route('planta.buscar') }}" class="{{ request()->routeIs('planta.*') ? 'active' : '' }}">Auditoría de Planta</a>
+                    <a href="{{ route('produccion.buscar') }}" class="{{ request()->routeIs('produccion.*') ? 'active' : '' }}">Control de Producción</a>
+                    @if (auth()->user()->rol === 'ADMIN')
+                        <a href="{{ route('entrega.buscar') }}" class="{{ request()->routeIs('entrega.*') ? 'active' : '' }}">Cierre de Entrega</a>
+                    @endif
                     @if (auth()->user()->rol === 'ADMIN')
                         <div class="section-title">Catálogos</div>
                         <a href="{{ route('operaciones.clientes.index') }}" class="{{ request()->routeIs('operaciones.clientes.*') ? 'active' : '' }}">Clientes</a>

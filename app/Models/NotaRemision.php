@@ -21,6 +21,7 @@ class NotaRemision extends Model
         'fecha_entrega_prog',
         'estatus_orden',
         'firma_cliente',
+        'firma_entrega',
         'geolocalizacion',
         'conteo_bloqueado',
     ];

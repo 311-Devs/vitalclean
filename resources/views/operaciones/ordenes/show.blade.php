@@ -25,13 +25,14 @@
 
         <table class="data-table" style="margin-top:1rem;">
             <thead>
-                <tr><th>Artículo</th><th>Cantidad</th><th>Precio Aplicado</th><th>Subtotal</th><th>Incidencias</th></tr>
+                <tr><th>Artículo</th><th>Entrada</th><th>Salida</th><th>Precio Aplicado</th><th>Subtotal</th><th>Incidencias</th></tr>
             </thead>
             <tbody>
                 @foreach ($orden->detalle as $linea)
                     <tr>
                         <td>{{ $linea->servicio->descripcion }}</td>
                         <td>{{ $linea->cantidad_entrada }}</td>
+                        <td>{{ $linea->cantidad_salida ?? '—' }}</td>
                         <td>{{ $linea->precio_aplicado !== null ? '$'.number_format($linea->precio_aplicado, 2) : 'Pendiente' }}</td>
                         <td>{{ $linea->subtotal !== null ? '$'.number_format($linea->subtotal, 2) : '—' }}</td>
                         <td>
