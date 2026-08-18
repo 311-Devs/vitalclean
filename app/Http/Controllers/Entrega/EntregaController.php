@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Entrega;
 
 use App\Http\Controllers\Controller;
 use App\Models\NotaRemision;
+use App\Support\WhatsApp;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -68,7 +69,11 @@ class EntregaController extends Controller
     {
         $orden->load('cliente', 'detalle.servicio');
 
-        return view('entrega.remision', compact('orden'));
+        $whatsappUrl = $orden->estatus_orden === 'ENTREGADO'
+            ? WhatsApp::linkEntrega($orden)
+            : null;
+
+        return view('entrega.remision', compact('orden', 'whatsappUrl'));
     }
 
     public function confirmar(Request $request, NotaRemision $orden): RedirectResponse
@@ -95,7 +100,7 @@ class EntregaController extends Controller
                 : $orden->estatus_orden,
         ]);
 
-        return redirect()->route('entrega.buscar')
+        return redirect()->route('entrega.remision', $orden)
             ->with('status', "Folio VC-".str_pad($orden->folio_sistema, 4, '0', STR_PAD_LEFT)." entregado y cerrado. Queda derivado a Cuentas por Cobrar.");
     }
 }

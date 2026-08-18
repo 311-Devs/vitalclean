@@ -27,7 +27,16 @@
         </div>
     @endif
 
-    @if ($soloLectura)
+    @if (session('status'))
+        <div class="alert alert-status no-print">{{ session('status') }}</div>
+    @endif
+
+    @if ($orden->estatus_orden === 'ENTREGADO')
+        <div class="alert alert-status no-print">
+            Este folio ya fue entregado y el ciclo quedó cerrado. Aquí abajo
+            puedes reimprimir la nota o reenviarla por WhatsApp.
+        </div>
+    @elseif ($soloLectura)
         <div class="alert alert-error no-print">
             Este folio ya no está Listo (estatus actual: {{ $orden->estatus_orden }}).
             Solo un Administrador puede reabrirlo.
@@ -85,8 +94,26 @@
             </form>
         </div>
     @else
+        @if ($orden->estatus_orden === 'ENTREGADO')
+            <div class="card no-print" style="max-width:640px; margin-top:1rem;">
+                @if ($whatsappUrl)
+                    <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="btn"
+                       style="background:#25D366; width:100%; box-sizing:border-box;">
+                        📲 Enviar nota por WhatsApp
+                    </a>
+                @else
+                    <div class="alert alert-error" style="text-align:left; margin:0;">
+                        Este cliente no tiene teléfono registrado — pide a un Administrador
+                        que lo agregue en Clientes para poder enviarle la nota por WhatsApp.
+                    </div>
+                @endif
+            </div>
+        @endif
         <div class="form-actions no-print" style="margin-top:1rem;">
             <button type="button" class="btn btn-secondary" onclick="window.print()">Imprimir</button>
+            @if (auth()->user()->rol === 'VENDEDOR')
+                <a href="{{ route('vendedor.home') }}" class="btn btn-secondary">Volver al Inicio</a>
+            @endif
             <a href="{{ route('entrega.buscar') }}" class="btn btn-secondary">Volver a Buscar</a>
         </div>
     @endif

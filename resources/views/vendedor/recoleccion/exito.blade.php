@@ -11,6 +11,18 @@
         <p><strong>Folio Físico:</strong> {{ $nota->folio_fisico }}</p>
         <p><strong>Total de piezas:</strong> {{ $nota->detalle->sum('cantidad_entrada') }}</p>
 
+        @if ($whatsappUrl)
+            <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="btn"
+               style="background:#25D366; width:100%; margin-bottom:.75rem; box-sizing:border-box;">
+                📲 Enviar nota por WhatsApp
+            </a>
+        @else
+            <div class="alert alert-error" style="text-align:left;">
+                Este cliente no tiene teléfono registrado — pide a un Administrador
+                que lo agregue en Clientes para poder enviarle la nota por WhatsApp.
+            </div>
+        @endif
+
         <div class="form-actions" style="justify-content:center;">
             <a href="{{ route('vendedor.pedidos.show', $nota) }}" class="btn">Ver Detalle</a>
             <a href="{{ route('vendedor.recoleccion.create') }}" class="btn btn-secondary">Nuevo Pedido</a>

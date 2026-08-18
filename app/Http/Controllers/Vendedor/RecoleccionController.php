@@ -7,6 +7,7 @@ use App\Http\Requests\RecoleccionRequest;
 use App\Models\Cliente;
 use App\Models\NotaRemision;
 use App\Models\Servicio;
+use App\Support\WhatsApp;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -136,6 +137,9 @@ class RecoleccionController extends Controller
 
         $notaRemision->load('cliente', 'detalle.servicio');
 
-        return view('vendedor.recoleccion.exito', ['nota' => $notaRemision]);
+        return view('vendedor.recoleccion.exito', [
+            'nota' => $notaRemision,
+            'whatsappUrl' => WhatsApp::linkRecoleccion($notaRemision),
+        ]);
     }
 }

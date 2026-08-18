@@ -158,4 +158,48 @@ class RecoleccionTest extends TestCase
 
         $response->assertForbidden();
     }
+
+    public function test_pantalla_de_exito_ofrece_boton_de_whatsapp(): void
+    {
+        $vendedor = Usuario::factory()->create(['rol' => 'VENDEDOR']);
+        $cliente = Cliente::factory()->create(['estatus_credito' => true, 'telefono' => '9997808557']);
+        $servicio = Servicio::factory()->create();
+
+        $this->actingAs($vendedor);
+        $this->post(route('vendedor.recoleccion.store'), [
+            'folio_fisico' => '02149',
+            'id_cliente' => $cliente->id_cliente,
+            'cantidades' => [$servicio->id_servicio => 5],
+        ]);
+        $this->post(route('vendedor.recoleccion.confirmar'), ['firma' => $this->firmaDataUrl()]);
+
+        $nota = NotaRemision::first();
+        $response = $this->get(route('vendedor.recoleccion.exito', $nota));
+
+        $response->assertOk();
+        $response->assertSee('Enviar nota por WhatsApp');
+        $response->assertSee('https://wa.me/529997808557', false);
+    }
+
+    public function test_pantalla_de_exito_sin_telefono_avisa_en_vez_de_ofrecer_boton(): void
+    {
+        $vendedor = Usuario::factory()->create(['rol' => 'VENDEDOR']);
+        $cliente = Cliente::factory()->create(['estatus_credito' => true, 'telefono' => null]);
+        $servicio = Servicio::factory()->create();
+
+        $this->actingAs($vendedor);
+        $this->post(route('vendedor.recoleccion.store'), [
+            'folio_fisico' => '02149',
+            'id_cliente' => $cliente->id_cliente,
+            'cantidades' => [$servicio->id_servicio => 5],
+        ]);
+        $this->post(route('vendedor.recoleccion.confirmar'), ['firma' => $this->firmaDataUrl()]);
+
+        $nota = NotaRemision::first();
+        $response = $this->get(route('vendedor.recoleccion.exito', $nota));
+
+        $response->assertOk();
+        $response->assertDontSee('Enviar nota por WhatsApp');
+        $response->assertSee('no tiene teléfono registrado');
+    }
 }

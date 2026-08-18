@@ -87,11 +87,45 @@ class EntregaTest extends TestCase
             'firma' => $this->firmaDataUrl(),
         ]);
 
-        $response->assertRedirect(route('entrega.buscar'));
+        $response->assertRedirect(route('entrega.remision', $orden));
 
         $orden->refresh();
         $this->assertSame('ENTREGADO', $orden->estatus_orden);
         $this->assertNotNull($orden->firma_entrega);
+    }
+
+    public function test_remision_tras_confirmar_ofrece_boton_de_whatsapp(): void
+    {
+        $vendedor = Usuario::factory()->create(['rol' => 'VENDEDOR']);
+        ['orden' => $orden, 'cliente' => $cliente] = $this->crearFolioListo();
+        $cliente->update(['telefono' => '9997808557']);
+
+        $this->actingAs($vendedor)->post(route('entrega.confirmar', $orden), [
+            'firma' => $this->firmaDataUrl(),
+        ]);
+
+        $response = $this->actingAs($vendedor)->get(route('entrega.remision', $orden));
+
+        $response->assertOk();
+        $response->assertSee('Enviar nota por WhatsApp');
+        $response->assertSee('https://wa.me/529997808557', false);
+    }
+
+    public function test_remision_sin_telefono_avisa_en_vez_de_ofrecer_boton(): void
+    {
+        $vendedor = Usuario::factory()->create(['rol' => 'VENDEDOR']);
+        ['orden' => $orden, 'cliente' => $cliente] = $this->crearFolioListo();
+        $cliente->update(['telefono' => null]);
+
+        $this->actingAs($vendedor)->post(route('entrega.confirmar', $orden), [
+            'firma' => $this->firmaDataUrl(),
+        ]);
+
+        $response = $this->actingAs($vendedor)->get(route('entrega.remision', $orden));
+
+        $response->assertOk();
+        $response->assertDontSee('Enviar nota por WhatsApp');
+        $response->assertSee('no tiene teléfono registrado');
     }
 
     public function test_confirmar_requiere_firma(): void
