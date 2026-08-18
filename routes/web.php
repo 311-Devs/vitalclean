@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Entrega\EntregaController;
+use App\Http\Controllers\Notas\NotaPdfController;
 use App\Http\Controllers\Operaciones\ClienteController;
 use App\Http\Controllers\Operaciones\DashboardController;
 use App\Http\Controllers\Operaciones\OrdenController;
@@ -33,6 +34,14 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
+// PDF de la nota de remisión, para el enlace que va dentro del mensaje de
+// WhatsApp (App\Support\WhatsApp). Pública pero con URL firmada: el cliente
+// externo no tiene cuenta, pero la firma evita que alguien adivine folios
+// consecutivos y descargue notas ajenas.
+Route::get('/notas/{orden}/pdf', [NotaPdfController::class, 'show'])
+    ->middleware('signed')
+    ->name('notas.pdf');
 
 // Detalle de folio (RF genérico): pantalla de solo lectura reutilizada como
 // botón "Ver" desde el dashboard y desde Planta/Producción/Entrega, así que

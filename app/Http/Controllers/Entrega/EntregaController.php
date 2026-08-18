@@ -72,8 +72,11 @@ class EntregaController extends Controller
         $whatsappUrl = $orden->estatus_orden === 'ENTREGADO'
             ? WhatsApp::linkEntrega($orden)
             : null;
+        $pdfUrl = $orden->estatus_orden === 'ENTREGADO'
+            ? WhatsApp::linkPdf($orden)
+            : null;
 
-        return view('entrega.remision', compact('orden', 'whatsappUrl'));
+        return view('entrega.remision', compact('orden', 'whatsappUrl', 'pdfUrl'));
     }
 
     public function confirmar(Request $request, NotaRemision $orden): RedirectResponse

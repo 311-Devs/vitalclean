@@ -96,17 +96,20 @@
     @else
         @if ($orden->estatus_orden === 'ENTREGADO')
             <div class="card no-print" style="max-width:640px; margin-top:1rem;">
-                @if ($whatsappUrl)
-                    <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="btn"
-                       style="background:#25D366; width:100%; box-sizing:border-box;">
-                        📲 Enviar nota por WhatsApp
-                    </a>
-                @else
-                    <div class="alert alert-error" style="text-align:left; margin:0;">
-                        Este cliente no tiene teléfono registrado — pide a un Administrador
-                        que lo agregue en Clientes para poder enviarle la nota por WhatsApp.
-                    </div>
-                @endif
+                <div style="display:flex; gap:.6rem; flex-wrap:wrap;">
+                    @if ($whatsappUrl)
+                        <a href="{{ $whatsappUrl }}" target="_blank" rel="noopener" class="btn"
+                           style="background:#25D366; flex:1; box-sizing:border-box;">
+                            📲 Enviar nota por WhatsApp
+                        </a>
+                    @else
+                        <div class="alert alert-error" style="text-align:left; margin:0; flex:1;">
+                            Este cliente no tiene teléfono registrado — pide a un Administrador
+                            que lo agregue en Clientes para poder enviarle la nota por WhatsApp.
+                        </div>
+                    @endif
+                    <a href="{{ $pdfUrl }}" target="_blank" rel="noopener" class="btn btn-secondary">📄 Ver PDF</a>
+                </div>
             </div>
         @endif
         <div class="form-actions no-print" style="margin-top:1rem;">
