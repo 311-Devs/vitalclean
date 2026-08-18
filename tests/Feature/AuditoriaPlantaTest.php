@@ -42,7 +42,7 @@ class AuditoriaPlantaTest extends TestCase
         return compact('orden', 'cliente', 'servicio', 'detalle');
     }
 
-    public function test_operador_can_search_folio_and_it_marks_arrival(): void
+    public function test_operador_can_search_folio_and_reach_conteo(): void
     {
         $operador = Usuario::factory()->create(['rol' => 'OPERADOR']);
         ['orden' => $orden] = $this->crearFolioEnRuta();
@@ -50,7 +50,32 @@ class AuditoriaPlantaTest extends TestCase
         $response = $this->actingAs($operador)->post(route('planta.iniciar'), ['folio' => '02149']);
 
         $response->assertRedirect(route('planta.conteo', $orden->fresh()));
+    }
+
+    public function test_abrir_pantalla_de_conteo_marca_la_llegada_a_planta(): void
+    {
+        // La transición RUTA -> PLANTA_RECIBIDO vive en conteo() (no en
+        // iniciar()) para que se dispare igual si se entra tecleando el
+        // folio o dando clic en "Auditar" desde el grid de pendientes.
+        $operador = Usuario::factory()->create(['rol' => 'OPERADOR']);
+        ['orden' => $orden] = $this->crearFolioEnRuta();
+
+        $this->actingAs($operador)->get(route('planta.conteo', $orden));
+
         $this->assertSame('PLANTA_RECIBIDO', $orden->fresh()->estatus_orden);
+    }
+
+    public function test_grid_de_pendientes_permite_auditar_directamente(): void
+    {
+        $operador = Usuario::factory()->create(['rol' => 'OPERADOR']);
+        ['orden' => $orden] = $this->crearFolioEnRuta();
+
+        $response = $this->actingAs($operador)->get(route('planta.buscar'));
+
+        $response->assertOk();
+        $response->assertSee($orden->folio_fisico);
+        $response->assertSee(route('planta.conteo', $orden), false);
+        $response->assertSee(route('operaciones.ordenes.show', $orden), false);
     }
 
     public function test_search_by_folio_sistema_also_works(): void

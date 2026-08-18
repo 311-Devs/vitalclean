@@ -20,9 +20,22 @@ class AuditoriaController extends Controller
 {
     protected const ESTATUS_PROCESABLES = ['RUTA', 'PLANTA_RECIBIDO'];
 
-    public function buscar(): View
+    public function buscar(Request $request): View
     {
-        return view('planta.buscar');
+        $folios = NotaRemision::with('cliente')
+            ->whereIn('estatus_orden', self::ESTATUS_PROCESABLES)
+            ->when($request->filled('buscar'), function ($query) use ($request) {
+                $buscar = $request->input('buscar');
+                $query->where(function ($q) use ($buscar) {
+                    $q->where('folio_fisico', 'like', "%{$buscar}%")
+                        ->orWhereHas('cliente', fn ($c) => $c->where('nombre_comercial', 'like', "%{$buscar}%"));
+                });
+            })
+            ->latest('updated_at')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('planta.buscar', compact('folios'));
     }
 
     public function iniciar(Request $request): RedirectResponse
@@ -46,16 +59,18 @@ class AuditoriaController extends Controller
             return back()->withInput()->with('error', "El folio {$orden->folio_fisico} ya está en estatus {$orden->estatus_orden}; no se puede volver a auditar.");
         }
 
-        // Pantalla A-04 KPI "En Auditoría": marca la llegada a planta.
-        if ($orden->estatus_orden === 'RUTA') {
-            $orden->update(['estatus_orden' => 'PLANTA_RECIBIDO']);
-        }
-
         return redirect()->route('planta.conteo', $orden);
     }
 
     public function conteo(NotaRemision $orden): View
     {
+        // Pantalla A-04 KPI "En Auditoría": marca la llegada a planta. Vive
+        // aquí (no en iniciar()) para que se dispare igual sin importar si
+        // se entró tecleando el folio o dando clic en "Auditar" desde el grid.
+        if ($orden->estatus_orden === 'RUTA') {
+            $orden->update(['estatus_orden' => 'PLANTA_RECIBIDO']);
+        }
+
         $orden->load('cliente', 'detalle.servicio', 'detalle.incidencias');
 
         $tarifas = TarifaCliente::where('id_cliente', $orden->id_cliente)

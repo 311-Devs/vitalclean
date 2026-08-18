@@ -41,21 +41,42 @@
         </form>
     </div>
 
-    <div class="card" style="max-width:700px; margin-top:1.5rem;">
-        <h2 style="font-size:1rem; margin-top:0;">Listos para Entregar</h2>
+    <div class="card" style="padding:0; overflow-x:auto; margin-top:1.5rem;">
+        <div style="padding:1rem 1rem 0;">
+            <h2 style="font-size:1rem; margin:0 0 .75rem;">Listos para Entregar</h2>
+            <form method="GET" action="{{ route('entrega.buscar') }}" style="margin-bottom:1rem;">
+                <input type="text" name="buscar" placeholder="Buscar por folio o cliente..." value="{{ request('buscar') }}"
+                       style="padding:.55rem .7rem; border:1px solid #d1d5db; border-radius:.375rem; min-width:260px;">
+                <button type="submit" class="btn btn-sm">Buscar</button>
+                @if (request('buscar'))
+                    <a href="{{ route('entrega.buscar') }}" class="btn btn-sm btn-secondary">Limpiar</a>
+                @endif
+            </form>
+        </div>
         <table class="data-table">
-            <thead><tr><th>Folio</th><th>Cliente</th><th></th></tr></thead>
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Cliente</th>
+                    <th>Estatus</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody>
                 @forelse ($listos as $orden)
                     <tr>
                         <td>VC-{{ str_pad($orden->folio_sistema, 4, '0', STR_PAD_LEFT) }} / {{ $orden->folio_fisico }}</td>
                         <td>{{ $orden->cliente->nombre_comercial }}</td>
+                        <td><span class="badge badge-{{ strtolower($orden->estatus_orden) }}">{{ $orden->estatus_orden }}</span></td>
                         <td><a class="btn btn-sm" href="{{ route('entrega.remision', $orden) }}">Entregar</a></td>
+                        <td><a class="btn btn-sm btn-secondary" href="{{ route('operaciones.ordenes.show', $orden) }}">Ver</a></td>
                     </tr>
                 @empty
-                    <tr><td colspan="3">No hay folios Listos para entregar ahora mismo.</td></tr>
+                    <tr><td colspan="5">No hay folios Listos para entregar ahora mismo.</td></tr>
                 @endforelse
             </tbody>
         </table>
+        <div style="padding:1rem;">{{ $listos->links() }}</div>
     </div>
 @endsection

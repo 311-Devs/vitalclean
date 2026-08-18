@@ -50,6 +50,12 @@
     </div>
 
     <div class="form-actions">
-        <a href="{{ route('operaciones.dashboard') }}" class="btn btn-secondary">Volver al Monitor</a>
+        @switch(auth()->user()->rol)
+            @case('VENDEDOR')
+                <a href="{{ route('vendedor.home') }}" class="btn btn-secondary">Volver al Inicio</a>
+                @break
+            @default
+                <a href="{{ route('operaciones.dashboard') }}" class="btn btn-secondary">Volver al Monitor</a>
+        @endswitch
     </div>
 @endsection

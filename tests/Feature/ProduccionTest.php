@@ -136,4 +136,31 @@ class ProduccionTest extends TestCase
 
         $response->assertForbidden();
     }
+
+    public function test_grid_de_en_proceso_muestra_boton_cerrar_y_ver(): void
+    {
+        $operador = Usuario::factory()->create(['rol' => 'OPERADOR']);
+        ['orden' => $orden] = $this->crearFolioEnProceso();
+
+        $response = $this->actingAs($operador)->get(route('produccion.buscar'));
+
+        $response->assertOk();
+        $response->assertSee($orden->folio_fisico);
+        $response->assertSee(route('produccion.detalle', $orden), false);
+        $response->assertSee(route('operaciones.ordenes.show', $orden), false);
+    }
+
+    public function test_grid_filtra_por_busqueda(): void
+    {
+        $operador = Usuario::factory()->create(['rol' => 'OPERADOR']);
+        ['orden' => $orden] = $this->crearFolioEnProceso();
+
+        $response = $this->actingAs($operador)->get(route('produccion.buscar', ['buscar' => 'NOEXISTE']));
+
+        $response->assertOk();
+        // No se busca folio_fisico aquí: el placeholder de ejemplo del
+        // formulario ("Ej. 02149...") coincide por casualidad con el folio
+        // de prueba y produciría un falso negativo.
+        $response->assertDontSee($orden->cliente->nombre_comercial);
+    }
 }

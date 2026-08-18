@@ -28,9 +28,16 @@ class ProduccionController extends Controller
     {
         $enProceso = NotaRemision::with('cliente')
             ->where('estatus_orden', self::ESTATUS_PROCESABLE)
+            ->when($request->filled('buscar'), function ($query) use ($request) {
+                $buscar = $request->input('buscar');
+                $query->where(function ($q) use ($buscar) {
+                    $q->where('folio_fisico', 'like', "%{$buscar}%")
+                        ->orWhereHas('cliente', fn ($c) => $c->where('nombre_comercial', 'like', "%{$buscar}%"));
+                });
+            })
             ->latest('updated_at')
-            ->take(15)
-            ->get();
+            ->paginate(15)
+            ->withQueryString();
 
         return view('produccion.buscar', compact('enProceso'));
     }

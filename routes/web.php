@@ -34,13 +34,19 @@ Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
+// Detalle de folio (RF genérico): pantalla de solo lectura reutilizada como
+// botón "Ver" desde el dashboard y desde Planta/Producción/Entrega, así que
+// se abre a los tres roles operativos (no solo Admin/Operador).
+Route::middleware(['auth', 'role:ADMIN,OPERADOR,VENDEDOR'])
+    ->get('/operaciones/ordenes/{orden}', [OrdenController::class, 'show'])
+    ->name('operaciones.ordenes.show');
+
 // Panel Administrativo (Admin/Operador) — Anexo Panel Web.
 Route::middleware(['auth', 'role:ADMIN,OPERADOR'])
     ->prefix('operaciones')
     ->name('operaciones.')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/ordenes/{orden}', [OrdenController::class, 'show'])->name('ordenes.show');
 
         // Catálogos (A-02, A-03, A-06): "gestiona precios personalizados por
         // cliente" es responsabilidad del Administrador — solo ADMIN.

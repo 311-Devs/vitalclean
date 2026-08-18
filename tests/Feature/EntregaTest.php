@@ -133,4 +133,27 @@ class EntregaTest extends TestCase
 
         $response->assertOk();
     }
+
+    public function test_grid_de_listos_muestra_boton_entregar_y_ver(): void
+    {
+        $vendedor = Usuario::factory()->create(['rol' => 'VENDEDOR']);
+        ['orden' => $orden] = $this->crearFolioListo();
+
+        $response = $this->actingAs($vendedor)->get(route('entrega.buscar'));
+
+        $response->assertOk();
+        $response->assertSee($orden->folio_fisico);
+        $response->assertSee(route('entrega.remision', $orden), false);
+        $response->assertSee(route('operaciones.ordenes.show', $orden), false);
+    }
+
+    public function test_vendedor_puede_explorar_el_folio_con_el_boton_ver(): void
+    {
+        $vendedor = Usuario::factory()->create(['rol' => 'VENDEDOR']);
+        ['orden' => $orden] = $this->crearFolioListo();
+
+        $response = $this->actingAs($vendedor)->get(route('operaciones.ordenes.show', $orden));
+
+        $response->assertOk();
+    }
 }
