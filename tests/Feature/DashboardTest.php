@@ -117,4 +117,29 @@ class DashboardTest extends TestCase
 
         $response->assertOk();
     }
+
+    public function test_detalle_de_orden_muestra_timeline_de_estatus(): void
+    {
+        $admin = Usuario::factory()->create(['rol' => 'ADMIN']);
+        $orden = $this->crearOrden('PROCESO');
+
+        $response = $this->actingAs($admin)->get(route('operaciones.ordenes.show', $orden));
+
+        $response->assertOk();
+        $response->assertSee('class="timeline-step completado"', false);
+        $response->assertSee('class="timeline-step actual"', false);
+        $response->assertDontSee('<div class="timeline-cancelado">', false);
+    }
+
+    public function test_detalle_de_orden_cancelada_muestra_aviso_en_vez_de_timeline(): void
+    {
+        $admin = Usuario::factory()->create(['rol' => 'ADMIN']);
+        $orden = $this->crearOrden('CANCELADO');
+
+        $response = $this->actingAs($admin)->get(route('operaciones.ordenes.show', $orden));
+
+        $response->assertOk();
+        $response->assertSee('<div class="timeline-cancelado">', false);
+        $response->assertDontSee('class="timeline-step', false);
+    }
 }

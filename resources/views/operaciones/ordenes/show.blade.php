@@ -5,6 +5,37 @@
 @section('content')
     <div class="page-header"><h1>Detalle de Orden</h1></div>
 
+    @php
+        // RN-07: flujo estrictamente secuencial. CANCELADO es una rama
+        // aparte, fuera de la secuencia normal.
+        $pasos = [
+            'RUTA' => 'Recolección',
+            'PLANTA_RECIBIDO' => 'Recibido en Planta',
+            'PROCESO' => 'En Proceso',
+            'LISTO' => 'Listo',
+            'ENTREGADO' => 'Entregado',
+        ];
+        $indiceActual = array_search($orden->estatus_orden, array_keys($pasos), true);
+    @endphp
+
+    @if ($orden->estatus_orden === 'CANCELADO')
+        <div class="timeline-cancelado">❌ Este pedido fue cancelado.</div>
+    @else
+        <div class="timeline">
+            @foreach ($pasos as $clave => $etiqueta)
+                @php
+                    $i = array_search($clave, array_keys($pasos), true);
+                    $estadoPaso = $i < $indiceActual ? 'completado' : ($i === $indiceActual ? 'actual' : '');
+                @endphp
+                <div class="timeline-step {{ $estadoPaso }}">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-circle">{{ $estadoPaso === 'completado' ? '✓' : $i + 1 }}</div>
+                    <div class="timeline-label">{{ $etiqueta }}</div>
+                </div>
+            @endforeach
+        </div>
+    @endif
+
     <div class="card" style="max-width:640px;">
         <p><strong>Folio Sistema:</strong> VC-{{ str_pad($orden->folio_sistema, 4, '0', STR_PAD_LEFT) }}</p>
         <p><strong>Folio Físico:</strong> {{ $orden->folio_fisico }}</p>

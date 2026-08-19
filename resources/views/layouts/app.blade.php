@@ -121,6 +121,34 @@
         .badge-listo { background: #28a745; }
         .badge-entregado { background: #1e7e34; }
         .badge-cancelado { background: var(--rojo); }
+
+        /* RN-07: timeline de estatus_orden (estilo "seguimiento de paquete"). */
+        .timeline { display: flex; align-items: flex-start; margin: 1.25rem 0; }
+        .timeline-step { flex: 1; text-align: center; position: relative; min-width: 0; }
+        .timeline-step .timeline-line {
+            position: absolute; top: 15px; left: -50%; width: 100%; height: 4px;
+            background: #e5e7eb; z-index: 0;
+        }
+        .timeline-step:first-child .timeline-line { display: none; }
+        .timeline-step.completado .timeline-line { background: #28a745; }
+        .timeline-step .timeline-circle {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: var(--blanco); border: 3px solid #e5e7eb;
+            color: #9ca3af;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto; font-weight: 700; font-size: .95rem;
+            position: relative; z-index: 1;
+        }
+        .timeline-step.completado .timeline-circle { background: #28a745; border-color: #28a745; color: var(--blanco); }
+        .timeline-step.actual .timeline-circle { background: var(--azul); border-color: var(--azul); color: var(--blanco); box-shadow: 0 0 0 4px rgba(27,79,138,.18); }
+        .timeline-step .timeline-label { margin-top: .5rem; font-size: .8rem; color: #9ca3af; }
+        .timeline-step.completado .timeline-label,
+        .timeline-step.actual .timeline-label { color: var(--texto); font-weight: 600; }
+        .timeline-cancelado {
+            background: #fdecea; border: 1px solid var(--rojo); color: var(--rojo);
+            padding: .75rem 1rem; border-radius: .375rem; margin: 1.25rem 0; font-weight: 600;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
