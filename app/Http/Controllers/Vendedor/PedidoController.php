@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Vendedor;
 
 use App\Http\Controllers\Controller;
 use App\Models\NotaRemision;
+use App\Support\WhatsApp;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -35,6 +36,17 @@ class PedidoController extends Controller
 
         $notaRemision->load('cliente', 'detalle.servicio');
 
-        return view('vendedor.pedidos.show', ['nota' => $notaRemision]);
+        // Una vez entregado, el mensaje/PDF reflejan lo realmente entregado
+        // (cantidad de salida, precio, total); antes de eso, lo declarado
+        // en la recolección — igual que en las pantallas de éxito/remisión.
+        $whatsappUrl = $notaRemision->estatus_orden === 'ENTREGADO'
+            ? WhatsApp::linkEntrega($notaRemision)
+            : WhatsApp::linkRecoleccion($notaRemision);
+
+        return view('vendedor.pedidos.show', [
+            'nota' => $notaRemision,
+            'whatsappUrl' => $whatsappUrl,
+            'pdfUrl' => WhatsApp::linkPdf($notaRemision),
+        ]);
     }
 }

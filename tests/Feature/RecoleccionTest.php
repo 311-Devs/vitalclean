@@ -202,4 +202,47 @@ class RecoleccionTest extends TestCase
         $response->assertDontSee('Enviar nota por WhatsApp');
         $response->assertSee('no tiene teléfono registrado');
     }
+
+    public function test_detalle_de_pedido_ofrece_whatsapp_y_pdf(): void
+    {
+        $vendedor = Usuario::factory()->create(['rol' => 'VENDEDOR']);
+        $cliente = Cliente::factory()->create(['telefono' => '9997808557']);
+        $nota = NotaRemision::create([
+            'folio_fisico' => '02149',
+            'id_cliente' => $cliente->id_cliente,
+            'id_vendedor' => $vendedor->id_usuario,
+            'fecha_recoleccion' => now(),
+            'estatus_orden' => 'RUTA',
+        ]);
+        $nota->detalle()->create([
+            'id_servicio' => Servicio::factory()->create()->id_servicio,
+            'cantidad_entrada' => 5,
+        ]);
+
+        $response = $this->actingAs($vendedor)->get(route('vendedor.pedidos.show', $nota));
+
+        $response->assertOk();
+        $response->assertSee('Enviar nota por WhatsApp');
+        $response->assertSee('Ver PDF');
+        $response->assertDontSee('Entregar / Cerrar Pedido');
+    }
+
+    public function test_detalle_de_pedido_listo_ofrece_boton_de_entregar(): void
+    {
+        $vendedor = Usuario::factory()->create(['rol' => 'VENDEDOR']);
+        $cliente = Cliente::factory()->create();
+        $nota = NotaRemision::create([
+            'folio_fisico' => '02149',
+            'id_cliente' => $cliente->id_cliente,
+            'id_vendedor' => $vendedor->id_usuario,
+            'fecha_recoleccion' => now(),
+            'estatus_orden' => 'LISTO',
+        ]);
+
+        $response = $this->actingAs($vendedor)->get(route('vendedor.pedidos.show', $nota));
+
+        $response->assertOk();
+        $response->assertSee('Entregar / Cerrar Pedido');
+        $response->assertSee(route('entrega.remision', $nota), false);
+    }
 }
