@@ -153,6 +153,7 @@
                         <a href="{{ route('operaciones.clientes.index') }}" class="{{ request()->routeIs('operaciones.clientes.*') ? 'active' : '' }}">Clientes</a>
                         <a href="{{ route('operaciones.servicios.index') }}" class="{{ request()->routeIs('operaciones.servicios.*') ? 'active' : '' }}">Servicios</a>
                         <a href="{{ route('operaciones.tarifas.index') }}" class="{{ request()->routeIs('operaciones.tarifas.*') ? 'active' : '' }}">Tarifarios</a>
+                        <a href="{{ route('operaciones.usuarios.index') }}" class="{{ request()->routeIs('operaciones.usuarios.*') ? 'active' : '' }}">Usuarios</a>
                     @endif
                 </nav>
                 <div class="content">

@@ -8,6 +8,7 @@ use App\Http\Controllers\Operaciones\DashboardController;
 use App\Http\Controllers\Operaciones\OrdenController;
 use App\Http\Controllers\Operaciones\ServicioController;
 use App\Http\Controllers\Operaciones\TarifaClienteController;
+use App\Http\Controllers\Operaciones\UsuarioController;
 use App\Http\Controllers\Planta\AuditoriaController;
 use App\Http\Controllers\Produccion\ProduccionController;
 use App\Http\Controllers\Vendedor\PedidoController;
@@ -64,6 +65,12 @@ Route::middleware(['auth', 'role:ADMIN,OPERADOR'])
             Route::resource('servicios', ServicioController::class)->except(['show']);
             Route::resource('tarifas', TarifaClienteController::class)
                 ->parameters(['tarifas' => 'tarifa'])
+                ->except(['show']);
+
+            // Catálogo de Usuarios (RF-01 extendido): antes se hacían las
+            // altas/bajas manualmente por phpMyAdmin.
+            Route::resource('usuarios', UsuarioController::class)
+                ->parameters(['usuarios' => 'usuario'])
                 ->except(['show']);
         });
     });
