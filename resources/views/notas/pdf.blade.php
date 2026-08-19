@@ -5,6 +5,8 @@
     <title>Nota VC-{{ str_pad($orden->folio_sistema, 4, '0', STR_PAD_LEFT) }}</title>
     <style>
         body { font-family: Helvetica, Arial, sans-serif; font-size: 12px; color: #1f2937; }
+        .encabezado { width: 100%; margin-bottom: 4px; }
+        .encabezado .icono { width: 34px; height: 34px; float: left; margin-right: 8px; }
         h1 { font-size: 20px; color: #1B1A4B; margin: 0 0 2px; }
         .subtitulo { color: #6b7280; margin: 0 0 18px; font-size: 11px; }
         .datos p { margin: 2px 0; }
@@ -18,8 +20,18 @@
     </style>
 </head>
 <body>
-    <h1>VITAL CLEAN</h1>
-    <p class="subtitulo">Nota de Remisión — Sistema de Gestión Operativa</p>
+    @php
+        // dompdf renderiza <img> con datos base64 de forma mucho más
+        // confiable que SVG inline (probado: el SVG del logo no se
+        // dibujaba en absoluto), así que el ícono se incrusta como PNG.
+        $logoBase64 = base64_encode(file_get_contents(resource_path('images/logo-nota-pdf.png')));
+    @endphp
+    <div class="encabezado">
+        <img class="icono" src="data:image/png;base64,{{ $logoBase64 }}" alt="Vital Clean">
+        <h1>VITAL CLEAN</h1>
+        <p class="subtitulo">Nota de Remisión — Sistema de Gestión Operativa</p>
+    </div>
+    <div style="clear:both;"></div>
 
     <div class="datos">
         <p><strong>Folio:</strong> VC-{{ str_pad($orden->folio_sistema, 4, '0', STR_PAD_LEFT) }} / {{ $orden->folio_fisico }}</p>
@@ -62,3 +74,4 @@
     <footer>Generado el {{ now()->format('d/m/Y H:i') }} — Lavandería Vital Clean.</footer>
 </body>
 </html>
+
